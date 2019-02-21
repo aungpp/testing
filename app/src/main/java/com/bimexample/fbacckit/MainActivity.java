@@ -63,7 +63,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, APP_REQUEST_CODE);
             }
         });
-
+        try {
+            printKeyHash();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     private void printKeyHash() throws NoSuchAlgorithmException {
