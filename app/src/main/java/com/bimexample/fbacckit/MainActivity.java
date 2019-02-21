@@ -2,9 +2,13 @@ package com.bimexample.fbacckit;
 
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -13,6 +17,9 @@ import com.facebook.accountkit.AccountKitLoginResult;
 import com.facebook.accountkit.ui.AccountKitActivity;
 import com.facebook.accountkit.ui.AccountKitConfiguration;
 import com.facebook.accountkit.ui.LoginType;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
     private Button btnphone,btnemail;
@@ -59,23 +66,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    private void printKeyHash() {
-//        try {
-//            PackageInfo packageInfo=getPackageManager().getPackageInfo("com.bimexample.fbacckit", PackageManager.GET_SIGNATURES);
-//            for(Signature signature:packageInfo.signatures){
-//                MessageDigest messageDigest=MessageDigest.getInstance("SHA");
-//                messageDigest.update(signature.toByteArray());
-//                //Log.d("KEYHASH", Base64.encodeToString(messageDigest.digest(),Base64.DEFAULT));
-//                Toast.makeText(getApplicationContext(),Base64.encodeToString(messageDigest.digest(),Base64.DEFAULT)+"--OK--",Toast.LENGTH_LONG).show();
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//            Toast.makeText(getApplicationContext(),e.getMessage()+"Err1",Toast.LENGTH_LONG).show();
-//            e.printStackTrace();
-//        } catch (NoSuchAlgorithmException e) {
-//            Toast.makeText(getApplicationContext(),e.getMessage()+"Err2",Toast.LENGTH_LONG).show();
-//            e.printStackTrace();
-//        }
-//}
+    private void printKeyHash() throws NoSuchAlgorithmException {
+        try {
+            PackageInfo packageInfo=getPackageManager().getPackageInfo("com.bimexample.fbacckit", PackageManager.GET_SIGNATURES);
+            for(Signature signature:packageInfo.signatures){
+                MessageDigest messageDigest=MessageDigest.getInstance("SHA");
+                messageDigest.update(signature.toByteArray());
+                //Log.d("KEYHASH", Base64.encodeToString(messageDigest.digest(),Base64.DEFAULT));
+                Toast.makeText(getApplicationContext(), Base64.encodeToString(messageDigest.digest(),Base64.DEFAULT)+"--OK--",Toast.LENGTH_LONG).show();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Toast.makeText(getApplicationContext(),e.getMessage()+"Err1",Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            Toast.makeText(getApplicationContext(),e.getMessage()+"Err2",Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+}
 
 
     @Override
